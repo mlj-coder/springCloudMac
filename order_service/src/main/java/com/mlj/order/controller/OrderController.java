@@ -29,12 +29,18 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
+    @RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
+    public Product findById(@PathVariable Long id){
+        Product forObject = restTemplate.getForObject("http://service-product/product/"+id, Product.class);
+        return forObject;
+    }
+
     /**
      * 通过订单系统，调用商品服务获取（product_service）
      * @param id 商品ID
      * @return
      */
-    @RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
     public Product findById(@PathVariable Long id){
         //调用discovery方法,调用商品服务的注册到eurekaServer的信息
         List<ServiceInstance> instances = discoveryClient.getInstances("SERVICE-PRODUCT");
@@ -43,5 +49,5 @@ public class OrderController {
         //拼接商品服务的元数据调用商品服务
         Product forObject = restTemplate.getForObject("http://"+instance.getHost()+":"+instance.getPort()+"/product/"+id, Product.class);
         return forObject;
-    }
+    }*/
 }
