@@ -23,7 +23,7 @@ public class OrderController {
 
     /**
      * 注入一个对象 discoveryClient
-     * springEureka提供的调用注册到eurekaServer的微服务
+     * springEureka提供的注册到eurekaServer的微服务
      * 调用方法获取服务的元数据信息
      */
     @Autowired
