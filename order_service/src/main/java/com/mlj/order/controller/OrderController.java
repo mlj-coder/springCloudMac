@@ -1,5 +1,6 @@
 package com.mlj.order.controller;
 
+import com.mlj.order.feign.ProductFeignClient;
 import com.mlj.product.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -17,6 +18,17 @@ import java.util.List;
 public class OrderController {
 
 
+
+    @Autowired
+    private ProductFeignClient productFeignClient;
+
+
+    @RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
+    public Product findById(@PathVariable Long id){
+        Product forObject = productFeignClient.findById(id);
+        return forObject;
+    }
+
     //注入rest Template对象
     @Autowired
     private RestTemplate restTemplate;
@@ -29,11 +41,11 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    @RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
     public Product findById(@PathVariable Long id){
         Product forObject = restTemplate.getForObject("http://service-product/product/"+id, Product.class);
         return forObject;
-    }
+    }*/
 
     /**
      * 通过订单系统，调用商品服务获取（product_service）
