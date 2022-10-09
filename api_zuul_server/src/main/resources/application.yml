@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: api-zuul-server
+server:
+  port: 8080  #端口

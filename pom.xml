@@ -12,6 +12,7 @@
         <module>product_service</module>
         <module>order_service</module>
         <module>eureka_server</module>
+        <module>api_zuul_server</module>
     </modules>
 
     <parent>
@@ -112,6 +113,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.1.6.RELEASE</version>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
             </plugin>
         </plugins>
     </build>
