@@ -25,11 +25,8 @@ public class OrderController {
 
     @RequestMapping(value = "/buy/{id}",method = RequestMethod.GET)
     public Product findById(@PathVariable Long id){
-        //Product forObject = productFeignClient.findById(id);
-        //return forObject;
-        Product product = new Product();
-        product.setProductName("1111111");
-        return  product;
+        Product forObject = productFeignClient.findById(id);
+        return forObject;
     }
 
     //注入rest Template对象

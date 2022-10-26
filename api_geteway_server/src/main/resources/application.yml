@@ -1,29 +1,37 @@
 server:
-  port: 8080  #端口
+  port: 8080 #端口
 spring:
   application:
-    name: api-gateway-server
-#配置springCloudGateway的路由
-  cloud:
+    name: api-gateway-server #服务名称
+  redis:
+    host: localhost
+    pool: 6379
+    database: 0
+  cloud: #配置SpringCloudGateway的路由
     gateway:
       routes:
-      #配置路由：路由ID，路由到微服务的URL，断言（判断条件）
-        - id: product-service #随便起
-          #uri: http://127.0.0.1:9001
-          uri: lb://service-product #uri : uri以 lb: //开头(lb代表从注册中心获取服务)，后面接的就是你需要转发到的服务名称
-          predicates: #断言 配置路由条件:
-            #- Path=/product/** #路径匹配规则，路径中有product就会根据这个规则来
-            - Path=/product-service/** #将请求转发到 http://localhost:9001/product/1
-          filters: #配置路由过滤器
-            - RewritePath=/product-service/(?<segment>.*), /$\{segment} # http://localhost:8080/product-service/product/1 --》 http://localhost:9001/product/1
-      #配置自动的根据服务名称惊醒路由转发 http://localhost:8080/服务名/product/1
-      discovery:
-        locator:
-          enabled: true #开启根据服务名称自动转发
-          lower-case-service-id: true #微服务名称已小写形式呈现
+      - id: product-service
+        uri: lb://service-product
+        predicates:
+        - Path=/product-service/**
+        #RequestRateLimiter：使用令牌限流过滤器，是getaway提供的
+        #参数   replenishRate：向令牌桶填充的速率
+        #       burstCapacity：令牌桶的容量
+        #key-resolver: '#{@pathKeyResolver}' key限流的规则自己来编写 pathKeyResolver是自己创建对象，放到容器中
+        filters:
+        - name: RequestRateLimiter
+          args:
+            # 使用SpEL从容器中获取对象
+            key-resolver: '#{@userKeyResolver}'
+            # 令牌桶每秒填充平均速率
+            redis-rate-limiter.replenishRate: 1
+            # 令牌桶的上限
+            redis-rate-limiter.burstCapacity: 3
+        - RewritePath=/product-service/(?<segment>.*), /$\{segment}
+#eureka注册中心
 eureka:
   client:
-    serviceUrl: # eureka server的路径
+    service-url:
       defaultZone: http://localhost:9000/eureka/
   instance:
-    prefer-ip-address: true #使用ip注册
+    prefer-ip-address: true #使用ip地址注册
