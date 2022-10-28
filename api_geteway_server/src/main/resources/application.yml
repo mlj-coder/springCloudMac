@@ -19,14 +19,14 @@ spring:
         #       burstCapacity：令牌桶的容量
         #key-resolver: '#{@pathKeyResolver}' key限流的规则自己来编写 pathKeyResolver是自己创建对象，放到容器中
         filters:
-        - name: RequestRateLimiter
-          args:
-            # 使用SpEL从容器中获取对象
-            key-resolver: '#{@userKeyResolver}'
-            # 令牌桶每秒填充平均速率
-            redis-rate-limiter.replenishRate: 1
-            # 令牌桶的上限
-            redis-rate-limiter.burstCapacity: 3
+#        - name: RequestRateLimiter
+#          args:
+#            # 使用SpEL从容器中获取对象
+#            key-resolver: '#{@userKeyResolver}'
+#            # 令牌桶每秒填充平均速率
+#            redis-rate-limiter.replenishRate: 1
+#            # 令牌桶的上限
+#            redis-rate-limiter.burstCapacity: 3
         - RewritePath=/product-service/(?<segment>.*), /$\{segment}
 #eureka注册中心
 eureka:

@@ -30,7 +30,7 @@ public class keyResolverConfiguration {
     /**
      * 基于请求参数的限流
      */
-    @Bean
+    //@Bean
     public KeyResolver userKeyResolver() {
         return exchange -> Mono.just(
                 exchange.getRequest().getQueryParams().getFirst("userId")
