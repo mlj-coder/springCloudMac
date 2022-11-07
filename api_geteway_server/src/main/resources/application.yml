@@ -10,6 +10,12 @@ spring:
   cloud: #配置SpringCloudGateway的路由
     gateway:
       routes:
+      - id: order-service
+        uri: lb://service-order
+        predicates:
+        - Path=/order-service/**
+        filters:
+        - RewritePath=/order-service/(?<segment>.*), /$\{segment}
       - id: product-service
         uri: lb://service-product
         predicates:
@@ -28,6 +34,26 @@ spring:
 #            # 令牌桶的上限
 #            redis-rate-limiter.burstCapacity: 3
         - RewritePath=/product-service/(?<segment>.*), /$\{segment}
+  zipkin:
+    #base-url: http://127.0.0.1:9411/ #zipkin server的请求地址
+    sender:
+      #type: web #请求方式,默认以http的方式向zipkin server发送追踪数据
+      type: rabbit
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener: # 这里配置了重试策略
+      direct:
+        retry:
+          enabled: true
+      simple:
+        retry:
+          enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0 #采样的百分比
 #eureka注册中心
 eureka:
   client:
@@ -35,3 +61,8 @@ eureka:
       defaultZone: http://localhost:9000/eureka/
   instance:
     prefer-ip-address: true #使用ip地址注册
+logging:
+  level:
+    root: INFO
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.cloud.sleuth: DEBUG

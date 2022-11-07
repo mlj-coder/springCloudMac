@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@Configuration
+//@Configuration
 public class keyResolverConfiguration {
 
     /**
      * 基于请求路径当作redis的key值
      * @return
      */
-    //@Bean
+    @Bean
     public KeyResolver pathKeyResolver() {
         //自定义的keyResolver
         return new KeyResolver() {
@@ -30,7 +30,7 @@ public class keyResolverConfiguration {
     /**
      * 基于请求参数的限流
      */
-    //@Bean
+    @Bean
     public KeyResolver userKeyResolver() {
         return exchange -> Mono.just(
                 exchange.getRequest().getQueryParams().getFirst("userId")

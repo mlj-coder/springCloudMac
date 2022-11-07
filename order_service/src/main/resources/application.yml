@@ -7,11 +7,31 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springcloud——test?useUnicode=true&characterEncoding=utf8
     username: root
-    password: 12345678
+    password: 12345
   jpa:
     database: MySQL
     show-sql: true
     open-in-view: true
+  zipkin:
+    #base-url: http://127.0.0.1:9411/ #zipkin server的请求地址
+    sender:
+      #type: web #请求方式,默认以http的方式向zipkin server发送追踪数据
+      type: rabbit
+    rabbitmq:
+      host: localhost
+      port: 5672
+      username: guest
+      password: guest
+      listener: # 这里配置了重试策略
+        direct:
+          retry:
+            enabled: true
+        simple:
+          retry:
+            enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0 #采样的百分比
 eureka:
   client:
     serviceUrl: # eureka server的路径
@@ -29,4 +49,6 @@ service-product: #ribbon的负载均衡配置
     MaxAutoRetries: 1 # 对当前实例的重试次数
 logging:  #日志打印
   level:
-    root: debug
+    root: INFO
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.cloud.sleuth: DEBUG

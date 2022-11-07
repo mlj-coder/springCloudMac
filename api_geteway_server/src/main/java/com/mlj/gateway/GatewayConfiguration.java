@@ -36,7 +36,7 @@ import java.util.*;
 /**
  * sentinel限流的配置类
  */
-@Configuration
+//@Configuration
 public class GatewayConfiguration {
 
 	private final List<ViewResolver> viewResolvers;
