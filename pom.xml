@@ -14,6 +14,9 @@
         <module>eureka_server</module>
         <module>api_zuul_server</module>
         <module>api_geteway_server</module>
+        <module>stream_producer</module>
+        <module>stream_consumer</module>
+        <module>stream_consumer_2</module>
     </modules>
 
     <parent>
