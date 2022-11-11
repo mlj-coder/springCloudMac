@@ -1,0 +1,21 @@
+server:
+  port: 10000 #服务端口
+spring:
+  application:
+    name: config-server #指定服务名
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/mlj-coder/spring-cloud-config.git
+          username: mlj-coder
+          password: mlj123456
+#          uri: https://github.com/mlj-coder/springCloudConfig.git
+#          default-label: main  #GitHub默认是main，springboot默认是master
+#          #skipSslValidation: true
+#          skip-ssl-validation: true
+#      label: main
+logging:
+  level:
+    com.netflix.discovery: 'OFF'
+    org.springframework.cloud: 'DEBUG'

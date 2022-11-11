@@ -17,6 +17,13 @@ public class ProductController {
     private String prot;
     @Value("${spring.cloud.client.ip-address}")
     private String ip;
+    @Value("${name}")
+    private String name;
+
+    @RequestMapping(value = "getName",method = RequestMethod.GET)
+    public String getName(){
+        return name;
+    }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public Product findById(@PathVariable Long id){

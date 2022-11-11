@@ -17,6 +17,7 @@
         <module>stream_producer</module>
         <module>stream_consumer</module>
         <module>stream_consumer_2</module>
+        <module>config_server</module>
     </modules>
 
     <parent>
