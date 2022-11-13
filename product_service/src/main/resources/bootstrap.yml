@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    config:
+      name: product #应用名称，需要对应git中配置文件名称的前半部分
+      profile: dev #开发环境
+      label: master #git中的分支
+      #uri: http://localhost:10001 #config-server的请求地址
+      #通过注册中心获取config-server配置
+      discovery:
+        enabled: true #开启服务发现
+        service-id: config-server #服务名称
+#开启动态刷新的请求断点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+
+#eureka注册中心
+eureka:
+  client:
+    serviceUrl: # eurekaServer的路径
+      defaultZone: http://localhost:9000/eureka/,http://localhost:8000/eureka/
+  instance:
+    prefer-ip-address: true #使用ip注册
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #spring.cloud.client.ip-address:获取ip地址 向server发送ip

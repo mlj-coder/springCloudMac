@@ -4,10 +4,12 @@ import com.mlj.product.entity.Product;
 import com.mlj.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/product")
+@RefreshScope //开启动态刷新
 public class ProductController {
 
     @Autowired

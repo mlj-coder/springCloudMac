@@ -17,8 +17,8 @@ public class ProducerTest {
     public void testSend(){
         //messageSender.send("hello 工具类");
         for (int i = 0; i < 10; i++) {
-            messageSender.send("hello 工具类");
-            messageSender.send("hello");
+            //messageSender.send("hello 工具类");
+            //messageSender.send("hello");
         }
     }
 }
